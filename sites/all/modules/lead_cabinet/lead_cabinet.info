@@ -1,0 +1,5 @@
+name = Lead_cabinet
+description = Lead_cabinet
+version = VERSION
+core = 7.x
+

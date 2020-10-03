@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Ena
+ * Date: 23.07.14
+ * Time: 16:08
+ */
+function test_views_schema() {
+    $schema['test_views'] = array(
+      'description' => 'test views table!',
+      'fields' => array(
+        'testid' => array(
+          'description' => 'test IDs',
+          'type' => 'serial',
+          'not null' => TRUE,
+        ),
+        'nid' => array(
+          'description' => 'Node IDs',
+          'type' => 'int',
+          'not null' => TRUE,
+        ),
+        'userid' => array(
+          'description' => 'USer IDs',
+          'type' => 'int',
+          'not null' => TRUE,
+        ),
+      ),
+      'primary key' => array('testid'),
+    );
+
+    return $schema;
+
+}

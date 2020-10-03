@@ -1,0 +1,16 @@
+<?php
+/**
+ * @return mixed
+ */
+function lead_cabinet_menu() {
+    $items['lead/create/new/%'] = array(
+        'title' => 'Создание нового вебинара',
+        'page callback' => 'webinar_new_create',
+        'page arguments' => array("id"=>3),
+        'access arguments' => array('access content'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+}
+

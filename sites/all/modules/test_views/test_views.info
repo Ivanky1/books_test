@@ -1,0 +1,10 @@
+name = Test views
+description = My first testings integration views.
+package = Views
+core = 7.x
+dependencies[] = views
+files[] = test_views.module
+
+; Views includes
+files[] = test_views.views.inc
+

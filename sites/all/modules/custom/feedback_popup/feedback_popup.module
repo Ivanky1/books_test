@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * * Реализация hook_block_info();
+ *
+ * @return mixed
+ */
+function feedback_popup_block_info() {
+    $blocks['feedback_popup'] = ['info' => 'Feedback popup link'];
+    return $blocks;
+}
+
+/**
+ * Реализация hook_block_view();
+ *
+ * @param string $delta
+ *
+ * @return array
+ */
+function feedback_popup_block_view($delta = '') {
+    $block = [];
+
+    if ($delta == 'feedback_popup') {
+        module_load_include('module', 'config_popup');
+        $block = getBlockPopupConfig('Напишите нам', 'feedback/nojs');
+    }
+
+    return $block;
+}
+
+/**
+ * hook_menu
+ *
+ * @return mixed
+ */
+function feedback_popup_menu() {
+    $items['feedback/%ctools_js'] = [
+        'title' => 'Test',
+        'page callback' => 'feedback_popup_handler',
+        'page arguments' => array(1),
+        'type' => MENU_CALLBACK,
+        'access arguments' => ['access content'],
+    ];
+
+    return $items;
+}
+
+/**
+ * @param $ajax
+ * @param $nid
+ *
+ * @return array|mixed|void
+ */
+function feedback_popup_handler($ajax) {
+    renderModalFormConfig($ajax, 'feedback_popup_form', 'Обратная связь');
+}
+
+function feedback_popup_form() {
+    $form['name'] = [
+        '#title' => 'Введите ваше имя',
+        '#type' => 'textfield',
+        '#attributes' => [
+            'autocomplete' => 'off'
+        ],
+        '#required' => TRUE,
+    ];
+
+    $form['phone'] = [
+        '#title' => 'Введите ваш телефон',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#attributes' => [
+            'autocomplete' => 'off'
+        ],
+    ];
+
+    $form['email'] = [
+        '#title' => 'Введите ваш email',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#attributes' => [
+            'autocomplete' => 'off'
+        ],
+    ];
+
+    $form["body"] = [
+        '#title' => 'Напишите нам',
+        '#type' => 'textarea',
+        '#rows' => '5',
+        '#cols' => '300',
+        '#required' => TRUE,
+    ];
+
+    $form["submit"] = [
+        "#type" => "submit",
+        "#value" => 'Отправить',
+    ];
+
+    return $form;
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ */
+function feedback_popup_form_submit($form, &$form_state) {
+    module_load_include('module', 'config_popup');
+    handlerModalFormSubmit($form_state['input'], 'Форма обратная связь okna 77');
+}

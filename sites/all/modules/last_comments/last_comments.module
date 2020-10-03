@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Реализация hook_menu()
+ */
+function last_comments_menu() {
+  $items['last-comments/%'] = array(
+    'title' => 'Last comments',
+    'page callback' => 'last_comments_ajax_callback',
+    'page arguments' => array(1),
+    'delivery callback' => 'ajax_deliver', // данные, возвращённые ф-ей last_comments_ajax_callback(), будут отданы в json формате
+    'access arguments' => array('access content'),
+  );
+  return $items;
+}
+
+/**
+ * Callback меню
+ */
+function last_comments_ajax_callback($from_cid, $mode = NULL) {
+  // Если у посетителя отключён javascript, то показываем ему сообщение
+ /* if ($mode != 'ajax') {
+    drupal_set_message('Turn Javascript');
+    drupal_goto(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '<front>');
+  } */
+  
+  // обновляем содержимое селектора #last-comments
+  $commands[] = ajax_command_html('#last-comments', _last_comments_block_content($from_cid));
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Реализация hook_block_info()
+ */
+function last_comments_block_info() {
+  $blocks['last-comments'] = array('info' => 'Last comments');
+  return $blocks;
+}
+ 
+/**
+ * Реализация hook_block_view();
+ */
+function last_comments_block_view($delta = '') {
+  $block = array();
+ 
+  if ($delta == 'last-comments') {
+    $block['subject'] = 'Last comments';
+    $block['content'] = '<div id="last-comments">' . _last_comments_block_content() . '</div>';
+  
+    // подключаем необходимые ajax библиотеки
+    drupal_add_library('system', 'drupal.ajax');
+    drupal_add_library('system', 'jquery.form');
+  }
+ 
+  return $block;
+}
+
+/**
+ * Возвращает html код содержимого блока
+ */
+function _last_comments_block_content($from_cid = NULL) {
+  // Выбираем комментарии
+  $query = db_select('comment', 'c')
+    ->fields('c', array('cid', 'nid', 'subject'))
+    ->condition('status', COMMENT_PUBLISHED)
+    ->orderBy('cid', 'DESC')
+    ->range(0, 1);
+  
+  if (!is_null($from_cid)) {
+    $query->condition('cid', $from_cid, '<');
+  }
+  
+  $items = array();
+  foreach ($query->execute() as $comment) {
+    $items[] = l($comment->subject, 'node/' . $comment->nid, array('fragment' => 'comment-' . $comment->cid));
+    $last_cid = $comment->cid;
+  }
+  
+  $content = theme('item_list', array('items' => $items));
+  $content .= '<div class="more-link">' . l('more', 'last-comments/' . $last_cid . '/nojs', array('attributes' => array('class' => array('use-ajax'), 'title' => 'More comments'))) . '</div>';
+  
+  return $content;
+}
+
+
+

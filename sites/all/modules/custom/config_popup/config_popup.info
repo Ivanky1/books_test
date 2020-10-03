@@ -1,0 +1,6 @@
+name = config_popup
+description = Config popup module
+version = VERSION
+core = 7.x
+
+

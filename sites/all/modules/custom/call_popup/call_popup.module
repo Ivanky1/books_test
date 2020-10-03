@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * * Реализация hook_block_info();
+ *
+ * @return mixed
+ */
+function call_popup_block_info() {
+    $blocks['call_popup'] = ['info' => 'Call popup link'];
+    return $blocks;
+}
+
+/**
+ * Реализация hook_block_view();
+ *
+ * @param string $delta
+ *
+ * @return array
+ */
+function call_popup_block_view($delta = '') {
+    $block = [];
+
+    if ($delta == 'call_popup') {
+        module_load_include('module', 'config_popup');
+        $block = getBlockPopupConfig('Заказать звонок', 'call/nojs');
+    }
+
+    return $block;
+}
+
+/**
+ * hook_menu
+ *
+ * @return mixed
+ */
+function call_popup_menu() {
+    $items['call/%ctools_js'] = [
+        'title' => 'Test',
+        'page callback' => 'call_popup_handler',
+        'page arguments' => array(1),
+        'type' => MENU_CALLBACK,
+        'access arguments' => ['access content'],
+    ];
+
+    return $items;
+}
+
+/**
+ * @param $ajax
+ * @param $nid
+ *
+ * @return array|mixed|void
+ */
+function call_popup_handler($ajax) {
+    renderModalFormConfig($ajax, 'call_popup_form', 'Заказать звонок');
+}
+
+function call_popup_form() {
+    $form['name'] = [
+        '#title' => 'Введите ваше имя',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#attributes' => [
+            'autocomplete' => 'off'
+        ],
+    ];
+
+    $form['phone'] = [
+        '#title' => 'Введите телефон',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+        '#attributes' => [
+            'autocomplete' => 'off'
+        ],
+    ];
+
+    $form["submit"] = [
+        "#type" => "submit",
+        "#value" => 'Отправить',
+    ];
+
+    return $form;
+}
+
+/**
+ * @param $form
+ * @param $form_state
+ */
+function call_popup_form_submit($form, &$form_state) {
+    module_load_include('module', 'config_popup');
+    handlerModalFormSubmit($form_state['input'], 'Форма заказать звонок okna 77');
+}

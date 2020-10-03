@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function helper_menu() {
+  $items = array();
+
+  $items['form-test'] = array(
+    'title' => 'Form test',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('helper_form_test'),
+    'access arguments' => array('access content'),
+  );
+  
+  return $items;
+}
+
+/**
+ * Form builder.
+ */
+function helper_form_test($form, &$form_state) {
+  $form['fields_count_wrapper'] = array(
+    '#type' => 'container',
+  );
+  
+  $form['fields_count_wrapper']['fields_count'] = array(
+    '#type' => 'select',
+    '#title' => 'Fields count',
+    '#options' => drupal_map_assoc(array(1, 2, 3)),
+    '#ajax' => array(
+      'callback' => '',
+      'wrapper' => 'fields',
+      'trigger_as' => array('name' => 'fields_count_change'),
+    ),
+  );
+  
+  $form['fields_count_wrapper']['fields_count_change'] = array(
+    '#type' => 'submit',
+    '#value' => 'Change count',
+    '#limit_validation_errors' => array(
+      array('fields_count'),
+    ),
+    '#submit' => array('helper_form_test_fields_count_change'),
+    '#ajax' => array(
+      'callback' => 'helper_form_test_fields_count_change_ajax',
+      'wrapper' => 'fields',
+    ),
+    '#attributes' => array(
+      'class' => array('js-hide'),
+    ),
+  );
+  
+  $form['fields'] = array(
+    '#prefix' => '<div id="fields">',
+    '#suffix' => '</div>',
+  );
+  
+  $count = isset($form_state['values']['fields_count']) ? $form_state['values']['fields_count'] : 1;
+  for ($i = 0; $i < $count; $i++) {
+    $form['fields']['field' . $i] = array(
+      '#type' => 'textfield',
+      '#title' => 'Field ' . ($i + 1),
+      '#required' => TRUE,
+    );
+  }
+  
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+
+  return $form;
+}
+
+/**
+ * Change count callback.
+ */
+function helper_form_test_fields_count_change($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback.
+ */
+function helper_form_test_fields_count_change_ajax($form, &$form_state) {
+  return $form['fields'];
+}
+
+/**
+ * Submit callback.
+ */
+function helper_form_test_submit($form, &$form_state) {
+  dsm($form_state['values'], 'helper_form_test_submit');
+}

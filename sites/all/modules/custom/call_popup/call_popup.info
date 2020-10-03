@@ -1,0 +1,6 @@
+name = call_popup
+description = Call popup module
+version = VERSION
+core = 7.x
+
+

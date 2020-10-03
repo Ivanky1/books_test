@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @param $text
+ * @param $url
+ * @return array
+ */
+function getBlockPopupConfig($text, $url) {
+    $block = [];
+
+    // Подключение необходимых библиотек.
+    ctools_include('ajax');
+    ctools_include('modal');
+
+// Подключение JS для модальных окон.
+    ctools_modal_add_js();
+
+// Создание пользовательского стиля, который будет использоваться для темизации модального окна.
+    $sample_style = array(
+        'feedback-deal-ctools' => array(
+            'modalSize' => array(
+                'type' => 'scale', // Тип модального окна: фиксированный (fixed) или резиновый(scale).
+                'width' => .8, // Ширина окна(если fixed, то в px).
+                'height' => 1.3, // Высота окна(если fixed, то в px).
+            ),
+            'modalOptions' => array(
+                'opacity' => .8,
+                'background-color' => '#000',
+            ),
+            'closeText' => '',
+            'animation' => 'fadeIn',
+            'animationSpeed' => 'fast',
+        ),
+    );
+
+    drupal_add_js($sample_style, 'setting');
+
+    $link = ctools_modal_text_button($text, $url,$text, 'ctools-modal-feedback-deal-ctools more');
+    $block['subject'] = $text;
+    $block['content'] = render($link);
+
+    return $block;
+}
+
+/**
+ * @param $ajax
+ * @param $form_id
+ * @param $title
+ */
+function renderModalFormConfig($ajax, $form_id, $title) {
+    if ($ajax) {
+        ctools_include('ajax');
+        ctools_include('modal');
+
+        $form_state = array(
+            'ajax' => TRUE,
+            'title' => $title,
+        );
+        // Use ctools to generate ajax instructions for the browser to create
+        // a form in a modal popup.
+        $output = ctools_modal_form_wrapper($form_id, $form_state);
+
+        if (!empty($form_state['ajax_commands'])) {
+            $output = $form_state['ajax_commands'];
+        }
+
+        // Return the ajax instructions to the browser via ajax_render().
+        print ajax_render($output);
+        drupal_exit();
+    }
+}
+
+function handlerModalFormSubmit($values, $title) {
+    $form_values = [];
+
+    foreach ($values as $key => $value) {
+        $form_values[$key] = trim(addslashes(strip_tags($value)));
+    }
+
+    $emails = [
+        'ivanky1@ya.ru',
+    ];
+
+    $emails = implode(',', $emails);
+    $body = nl2br($form_values['body']);
+    $body .= '<br/><br/>Имя - '.$form_values['name'];
+    $body .= '<br/><br/>телефон - '.$form_values['phone'];
+    $body .= '<br/><br/>email - '.$form_values['email'];
+
+    if (isset($form_values['body'])) {
+        $body .= '<br/><br/>Комментарии - '.$form_values['body'];
+    }
+
+    module_load_include('module', 'config_common');
+    config_common_send_mail($emails, $title, $body);
+
+    $message = '<div class="messages status text-center">Спасибо ваша заявка отправлена</div>';
+    $output = [];
+    $output[] = ctools_modal_command_display('<div class="text-center">Спасибо</div>', $message);
+
+    print ajax_render($output);
+    exit;
+}

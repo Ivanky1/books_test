@@ -1,0 +1,6 @@
+name = feedback_popup
+description = feedback popup module
+version = VERSION
+core = 7.x
+
+

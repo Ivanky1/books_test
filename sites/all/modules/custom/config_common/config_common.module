@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @param $emails
+ * @param $title
+ * @param $body
+ * @param $from
+ */
+function config_common_send_mail($emails, $title, $body, $from = '') {
+    drupal_mail('config_common', 'config_common_simple', $emails, language_default(), [
+        'subject' => $title,
+        'body' => $body,
+    ], $from);
+}
+
+/**
+ * Implements hook_mail().
+ */
+function config_common_mail($key, &$message, $params, $from = '') {
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+    switch ($key) {
+        case 'config_common_simple':
+            $message['subject'] = $params['subject'];
+            $message['body'][] = $params['body'];
+            break;
+    }
+}

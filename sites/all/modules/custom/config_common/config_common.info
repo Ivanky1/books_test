@@ -1,0 +1,6 @@
+name = config_common
+description = Config common module
+version = VERSION
+core = 7.x
+
+

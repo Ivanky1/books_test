@@ -1,0 +1,10 @@
+<?php
+/*
+ *  hook_views_api()
+ */
+function test_views_views_api() {
+    return array(
+        'api' => 3,
+        'path' => drupal_get_path("module", "test_views").'/includes',
+    );
+}
