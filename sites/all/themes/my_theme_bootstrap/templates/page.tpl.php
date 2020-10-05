@@ -114,28 +114,6 @@
 
     <div class="row">
         <div class="box">
-            <div class="col-lg-12 text-center">
-
-                <?php print render($page['highlighted']); ?>
-
-                <h2 class="brand-before">
-                    <small>Добро пожаловать на сайт</small>
-                </h2>
-               <!-- <h1 class="brand-name"><?php /*print $site_name; */?></h1>-->
-                <hr class="tagline-divider">
-                <h2 class="intro-text text-center">
-                    <?php
-                      /*  $block = module_invoke('call_popup', 'block_view', 'call_popup');
-                    print render($block['content']);*/
-                    ?>
-                </h2>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="box">
             <div class="col-lg-12">
                 <hr>
                 <?php if (!empty($title)): ?>

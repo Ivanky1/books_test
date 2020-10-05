@@ -54,7 +54,7 @@ hr {
 .navbar-nav {
     text-transform: uppercase;
     font-weight: 400;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .img-full {
@@ -236,4 +236,8 @@ footer p {
 
 .navbar-nav {
     text-transform: none;
+}
+
+.form-item-submitted-agree {
+    margin: 25px 0;
 }
