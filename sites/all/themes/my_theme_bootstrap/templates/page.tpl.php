@@ -74,9 +74,10 @@
  */
 ?>
 <?php if (!empty($site_name)): ?>
-    <div class="brand"><?php print $site_name; ?></div>
+   
 <?php endif; ?>
 
+<div class="brand"><a href="/"><img src="/sites/all/themes/my_theme_bootstrap/img/logo.png" /></a></div>
 
 <div class="address-bar"><?php print render($page['header']); ?></div>
 
@@ -94,7 +95,7 @@
             </button>
             <?php endif; ?>
             <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-            <a class="navbar-brand" href="/">Книги</a>
+            <a class="navbar-brand" href="/">Скупка книг </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -148,7 +149,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <?php print render($page['footer']); ?>
-                <p>&copy; Книги <?=date('Y') ?></p>
+                <p>&copy; Скупка книг <?=date('Y') ?></p>
             </div>
         </div>
     </div>
