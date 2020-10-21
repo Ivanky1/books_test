@@ -74,7 +74,7 @@
  */
 ?>
 <?php if (!empty($site_name)): ?>
-   
+
 <?php endif; ?>
 
 <div class="brand"><a href="/"><img src="/sites/all/themes/my_theme_bootstrap/img/logo.png" /></a></div>
@@ -95,7 +95,7 @@
             </button>
             <?php endif; ?>
             <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-            <a class="navbar-brand" href="/">Скупка книг </a>
+            <a class="navbar-brand" href="/">StockBooks </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -149,7 +149,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <?php print render($page['footer']); ?>
-                <p>&copy; Скупка книг <?=date('Y') ?></p>
+                <p>&copy; StockBooks <?=date('Y') ?></p>
             </div>
         </div>
     </div>
