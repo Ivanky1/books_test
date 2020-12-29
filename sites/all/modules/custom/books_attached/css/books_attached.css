@@ -1,0 +1,49 @@
+.form-item-upload-file .form-managed-file input[value="Удалить"] {
+    width: 5px;
+    height: 20px;
+    background: url(../img/icon-close.png) center center no-repeat #FFF;
+    font-size: 0;
+    box-shadow: inherit;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.file_att_bl {
+    display: block;
+}
+
+.file_att_bl .file_att {
+    display: block;
+    background: url(../img/icon-attach.png) left top no-repeat #fff;
+    padding-left: 50px;
+    cursor: pointer;
+}
+.file_att_bl .file_att_add {
+    display: none;
+    background: url(../img/icon-file.png) left top no-repeat #fff;
+    padding-left: 50px;
+    margin-bottom: 0;
+}
+.file_att_bl .file_att_add.active {
+    display: block;
+    margin-top: 30px;
+}
+.file_att_bl .file_att.active {
+    display: none;
+}
+.file_att_bl .file_att_green {
+    color: #007a3d;
+}
+.file_att_bl .file_att_grey {
+    color: #a9a9a9;
+    font-size: 13px;
+}
+.file_att_bl .file_att_closer {
+    background: url(../img/icon-close.png) center right no-repeat #fff;
+    display: table;
+    padding-right: 20px;
+    cursor: pointer;
+}
+.fles_natur_wrap {
+    display: none;
+}

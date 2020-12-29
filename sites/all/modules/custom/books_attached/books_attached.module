@@ -1,0 +1,22 @@
+<?php
+
+/**
+
+@override hook_init
+ */
+function books_attached_init() {
+    $urls = [
+        'builk-buy',
+        'free-export',
+        'evaluation',
+    ];
+    foreach ($urls as $url) {
+        if (strstr(request_uri(), $url)) {
+            $path = drupal_get_path('module', 'books_attached');
+            drupal_add_js($path . '/js/books_attached.js');
+            drupal_add_css($path . '/css/books_attached.css');
+            break;
+        }
+    }
+
+}

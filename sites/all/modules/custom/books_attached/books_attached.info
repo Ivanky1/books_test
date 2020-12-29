@@ -1,0 +1,6 @@
+name = books_attached
+description = Books attached module
+version = VERSION
+core = 7.x
+
+
